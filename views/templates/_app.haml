@@ -1,0 +1,16 @@
+.app-listing
+  .g-app-listing__content
+    .g-app-listing__maininfo
+      %h3.app-listing__name
+        %a.app-link(href="/application/{{application.id}}") {{application.name | translate}}
+      .app-listing__description
+        {{application.short_description | translate}}
+    .g-app-listing__moreinfo
+      .app-listing__icon
+        %img(ng-src="{{application.image}}")
+      .app-listing__rating=render("rating")
+      .app-listing__tags
+        Category:
+        %ul.taglist
+          %li.taglist__tag(ng-repeat="category in application.categories")
+            {{category.name | translate}}

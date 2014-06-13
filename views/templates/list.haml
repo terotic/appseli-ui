@@ -1,0 +1,14 @@
+%h1 Apps List
+.apps-filter=render("filtering")
+
+.apps-list
+  .apps-list__sort
+    %form.form-horizontal(role="form")
+      .form-group
+        %label.control-label(for="sort-method") Sort List
+        %select.form-control#sort-method(ng-model="sortProp")
+          %option(value="-created") Date added
+          %option(value="-rating") Rating
+          %option(value="name.fi") Alphabetical
+  .g-apps-list
+    .g-app-listing(ng-repeat="application in applications | orderBy:sortProp")=render("app")

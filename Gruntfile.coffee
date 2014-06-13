@@ -72,12 +72,13 @@ module.exports = (grunt) ->
                 dest: 'static/locales/en.json'
                 options:
                     language: 'en'
-        jade:
+        haml:
             compile:
                 options:
-                    client: true
+                    target: 'js'
+                    language: 'js'
                 files:
-                    'static/templates.js': ['views/templates/*.jade']
+                    'static/templates.js': ['views/templates/*.haml']
         newer:
             options:
                 override: checkForImports
@@ -104,11 +105,11 @@ module.exports = (grunt) ->
                     'locales/*.yaml'
                 ]
                 tasks: 'i18next-yaml'
-            jade:
+            haml:
                 files: [
-                    'views/templates/*.jade'
+                    'views/templates/*.haml'
                 ]
-                tasks: 'jade'
+                tasks: 'haml'
             livereload:
                 options:
                     livereload: true
@@ -125,10 +126,10 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-less'
-    grunt.loadNpmTasks 'grunt-contrib-jade'
+    grunt.loadNpmTasks 'grunt-haml'
     grunt.loadNpmTasks 'grunt-express-server'
     grunt.loadNpmTasks 'grunt-i18next-yaml'
     grunt.loadNpmTasks 'grunt-newer'
 
-    grunt.registerTask 'default', ['newer:coffee', 'newer:less', 'newer:i18next-yaml', 'newer:jade']
+    grunt.registerTask 'default', ['newer:coffee', 'newer:less', 'newer:i18next-yaml', 'newer:haml']
     grunt.registerTask 'server', ['default', 'express', 'watch']
