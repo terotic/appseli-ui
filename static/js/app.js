@@ -1,5 +1,5 @@
 (function() {
-  angular.module("apps", ["ngRoute", "ngResource", "config", "ngAnimate"]).filter("truncate", function() {
+  angular.module("apps", ["ngRoute", "ngResource", "config", "ngAnimate", "ui.bootstrap"]).filter("truncate", function() {
     return function(text, length, end) {
       if (isNaN(length)) {
         length = 10;
