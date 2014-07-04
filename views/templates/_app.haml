@@ -13,4 +13,5 @@
         Category:
         %ul.taglist
           %li.taglist__tag(ng-repeat="category in application.categories")
-            {{category.name | translate}}
+            %a(ng-href="/list/?category={{category.slug}}")
+              {{category.name | translate}}

@@ -77,8 +77,11 @@ module.exports = (grunt) ->
                 options:
                     target: 'js'
                     language: 'js'
+                    includePath: true
+                    pathRelativeTo: './views/templates/'
+ 
                 files:
-                    'static/templates.js': ['views/templates/*.haml']
+                    'static/templates.js': ['views/templates/*.haml','views/templates/template/alert/*.haml','views/templates/template/carousel/*.haml','views/templates/template/rating/*.haml','views/templates/template/typeahead/*.haml']
         newer:
             options:
                 override: checkForImports
@@ -108,6 +111,10 @@ module.exports = (grunt) ->
             haml:
                 files: [
                     'views/templates/*.haml'
+                    'views/templates/template/alert/*.haml'
+                    'views/templates/template/carousel/*.haml'
+                    'views/templates/template/rating/*.haml'
+                    'views/templates/template/typeahead/*.haml'
                 ]
                 tasks: 'haml'
             livereload:
