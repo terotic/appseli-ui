@@ -1,4 +1,4 @@
-%h2.page-header Apps Listing
+%h2.page-header Apps
 .apps-filter=render("filtering")
 
 .apps-list
@@ -7,8 +7,8 @@
       .form-group
         %label.control-label(for="sort-method") Sort List
         %select.form-control#sort-method(ng-model="sortProp")
-          %option(value="-created") Date added
-          %option(value="-rating") Rating
-          %option(value="name.fi") Alphabetical
+          %option(value="-created") Newest first
+          %option(value="-rating") Best rated first
+          %option(value="name.fi") Alphabetical order
   .g-apps-list
     .g-app-listing(ng-repeat="application in applications | orderBy:sortProp")=render("app")

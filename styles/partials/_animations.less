@@ -1,5 +1,63 @@
+@col-bg: #50A5A5;
+@col-text: #FFF8E8;
+@wave-width: 3px;
+@wave-size: 40px;
+@wave-speed: 1s;
+
 .lh-keyframes(~'show-card, 0%{ opacity: 0.1 } 100%{ opacity: 1 }');
+.lh-keyframes(~'move-card, 0%{ transform:scale(0.1) } 100%{ transform:scale(1) }');
+
+.lh-keyframes(~'waver-after, 0% { left: 23px; } 100% { left: -27px; }');
+.lh-keyframes(~'waver-middle, 0% { top: 0;} 100% { top: 10px; }');
+.lh-keyframes(~'waver-before, 0% { left: -27px; } 100% { left: 23px; }');
+
 
 .g-app-listing.ng-enter {
   .animation(show-card 0.5s linear normal);
+}
+
+.g-app-listing.ng-move-active {
+  .animation(move-card 1s linear normal);
+}
+
+.g-content {
+  .animation(show-card 0.5s linear normal);
+}
+
+
+.loader, .loader::before, .loader::after {
+  width: @wave-size;
+  height: @wave-size;
+  border-radius: 50%;
+  border: solid @wave-width transparent;
+}
+
+.loader {
+    border-bottom-color: @col-text;
+    margin: auto;
+    margin-bottom: 10px;
+    text-align: center;
+    .animation(waver-middle @wave-speed*2 infinite alternate ease-in-out);
+    position: relative;
+}
+
+.loader::before,
+.loader::after{
+  content: '';
+  display: block;
+  position: absolute;
+}
+
+.loader::before {
+    border-bottom-color: @col-text;
+    //left: -@wave-size + @wave-width*4;
+    top: -@wave-width;
+    .animation(waver-before @wave-speed infinite alternate ease-in-out);
+}
+
+.loader::after {
+    border-bottom-color: @col-text;
+    //left: @wave-size/2 + @wave-width;
+    top: -@wave-width;
+    .animation(waver-after @wave-speed infinite alternate ease-in-out);
 }

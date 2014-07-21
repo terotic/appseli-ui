@@ -6,9 +6,10 @@
         %span(ng-repeat="part in ['search', 'category', 'accessibility', 'language', 'platform', 'min_rating']" ng-if="appliedFilter[part]")
           {{part}}: {{appliedFilter[part].join(", ")}}
       -#"Helsinki", category: Tourism, platform: iOS
-      %a(data-toggle="collapse" data-target="#j-filterbox")
-        Refine &gt;&gt;
-    #j-filterbox.collapse
+      %a.refine-toggle(data-toggle="collapse" data-target="#j-filterbox")
+        Refine 
+        %span.glyphicon.glyphicon-chevron-right
+    #j-filterbox.filters-form.collapse(collapse="refineBox")
       .filter-text.form-group
         %label(for="searchfield") Search
         %input.form-control#searchfield(type="text" placeholder="search" ng-model="filter.search")
