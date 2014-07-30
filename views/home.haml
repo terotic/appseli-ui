@@ -86,6 +86,5 @@
       window.HAML = {}
     %script{src: "templates.js", type: "text/javascript"}
     %script{src: "js/app.js", type: "text/javascript"}
-    -# if (config.livereload) {
-    -#%script{src: "//localhost:9001/livereload.js"}
-    -# }
+    - if (config.livereload)
+      %script{src: "//localhost:35729/livereload.js"}

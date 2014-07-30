@@ -43,6 +43,8 @@ module.exports = (grunt) ->
         pkg: '<json:package.json>'
         coffee:
             client:
+                options:
+                    sourceMap: true
                 expand: true
                 cwd: 'src'
                 src: ['*.coffee']
@@ -87,12 +89,15 @@ module.exports = (grunt) ->
                 override: checkForImports
 
         watch:
-            'coffee-server':
+            express:
                 files: [
                     'Gruntfile.coffee'
                     'server-src/*.coffee'
+                    'config/*.yml'
                 ]
-                tasks: 'coffee:server'
+                options:
+                    spawn: false
+                tasks: ['coffee:server', 'express']
             'coffee-client':
                 files: [
                     'src/*.coffee'
@@ -120,7 +125,7 @@ module.exports = (grunt) ->
             livereload:
                 options:
                     livereload: true
-                files: ['static/**/*.js', 'static/**/*.css']
+                files: ['static/**/*.js', 'static/**/*.css', 'views/*.haml']
 
         express:
             options:
