@@ -28,3 +28,12 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+server-js
+static/css
+static/js
+config/runtime.json
+config/local.yml
+static/locales/*.json
+static/templates.js
+Gruntfile.js
