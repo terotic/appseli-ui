@@ -24,6 +24,9 @@
     %meta{name: "msapplication-TileImage", content: "/mstile-144x144.png"}
     %meta{name: "application-name", content: "hel.apps"}
 
+    %script{type: "text/javascript"}
+      != "app_settings = " + config_json + ";"
+
     %link{href: config.static_path + "css/appseli.css", media: "all", rel: "stylesheet", type: "text/css"}
     %link{href: "http://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic", media: "all", rel: "stylesheet", type: "text/css"}
 
@@ -81,8 +84,8 @@
     %script{src: "vendor/ui-bootstrap-custom-0.10.0.min.js", type: "text/javascript"}
     :javascript
       angular.module("config", [])
-      .constant("API_ROOT", "http://83.136.248.175/v1/")
-      .constant("STATIC_URL", "/");
+      .constant("API_ROOT", app_settings.api_backend_url + '/')
+      .constant("STATIC_URL", app_settings.static_path);
       window.HAML = {}
     %script{src: "templates.js", type: "text/javascript"}
     %script{src: "js/app.js", type: "text/javascript"}

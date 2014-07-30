@@ -30,8 +30,10 @@ git.short (commit_id) ->
 STATIC_URL = config.static_path
 ALLOWED_URLS = [
     /^\/$/
-    /^\/unit\/\d+\/?$/,
-    /^\/service\/\d+\/?$/,
+    /^\/list\/$/,
+    /^\/info\/$/,
+    /^\/categories\/$/,
+    /^\/application\/\d+\/$/,
 ]
 
 static_file_helper = (fpath) ->

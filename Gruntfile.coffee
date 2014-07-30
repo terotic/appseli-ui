@@ -94,6 +94,7 @@ module.exports = (grunt) ->
                     'Gruntfile.coffee'
                     'server-src/*.coffee'
                     'config/*.yml'
+                    'views/*.haml'
                 ]
                 options:
                     spawn: false
