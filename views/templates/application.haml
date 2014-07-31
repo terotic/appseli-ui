@@ -11,7 +11,7 @@
       .app_details__second
         .app__rating
           Rating:
-          =render("rating")
+          -#=render("rating")
         -# Why do .app__languages and .language-list__language repeat?
         .app__languages(ng-if="application.categories.length")
           Categories
@@ -47,6 +47,7 @@
     .app__long-description
       {{application.description | translate}}
 
+  -# TODO
     .app__screenshots
       %div(ng-controller="CarouselCtrl")
         <carousel interval="myInterval">
@@ -55,7 +56,6 @@
           </slide>
         </carousel>
 
-  -# TODO
     .related-apps
       %h3 Similar Applications
       %ul.similar-apps-list
