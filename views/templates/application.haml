@@ -36,7 +36,7 @@
         %ul.platform-list
           %li.platform-list__platform(ng-repeat="platform in application.platforms" class="platform-list__platform--{{platform.slug}}")
             %a.platform__download(href="{{platform.store_url}}")
-              %img(src="images/badges-assets/{{platform.slug}}-en.png" alt="{{platform.name | translate}}")
+              %img(ng-src="images/badges-assets/{{platform.slug}}-en.png" alt="{{platform.name | translate}}")
 
         .app__links
           .app__link.app-link--publisherwebsite
