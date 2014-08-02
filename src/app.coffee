@@ -62,6 +62,21 @@ angular.module("apps", [
         put: (key, value) ->
             console.log "cache put", key, value
     return factory
+).factory("PageState", ($timeout) ->
+    class PageState
+        register: (scope) ->
+            @state = 'load'
+            scope.$on '$viewContentLoaded', (arg) =>
+                console.log arg
+                # https://groups.google.com/forum/#!topic/angular/iHzCYjUfKww
+                # todo: put somewhere
+                #                $(this).parent().one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function() {
+                $timeout =>
+                    @state = 'ready'
+            @
+    return new PageState
+        
+
 ).factory("Applications", ($resource, API_ROOT) ->
     $resource API_ROOT + "application/:id/"
 ).factory("Categories", ($resource, API_ROOT) ->
@@ -97,6 +112,7 @@ angular.module("apps", [
     ($routeProvider, STATIC_URL) ->
         $routeProvider.when("/",
             templateUrl: STATIC_URL + "front.html"
+            controller: "DefaultCtrl"
         ).when("/list/",
             controller: "ApplicationListCtrl"
             templateUrl: STATIC_URL + "list.html"
@@ -108,11 +124,14 @@ angular.module("apps", [
             templateUrl: STATIC_URL + "categories.html"
         ).when("/info/",
             templateUrl: STATIC_URL + "info.html"
+            controller: "DefaultCtrl"            
         ).otherwise redirectTo: "/"
-]).controller("ApplicationListCtrl", ($scope, $location, Applications, Categories, Platforms, Accessibilities) ->
+]).controller("DefaultCtrl", ["$scope", "$timeout", "PageState", ($scope, $timeout, PageState) ->
+    $scope.pageState = PageState.register $scope
+]).controller("ApplicationListCtrl", ($scope, $location, Applications, Categories, Platforms, Accessibilities, PageState) ->
+    $scope.pageState = PageState.register $scope
     $scope.filter = {}
     $scope.appliedFilter = {}
-
     angular.extend $scope.filter, $location.search()
     angular.extend $scope.appliedFilter, $scope.filter
     $scope.applications = Applications.query($scope.filter)
@@ -131,7 +150,8 @@ angular.module("apps", [
         return
 
     return
-).controller("ApplicationCtrl", ($scope, $routeParams, Applications) ->
+).controller("ApplicationCtrl", ($scope, $routeParams, Applications, PageState) ->
+    $scope.pageState = PageState.register $scope    
     application = Applications.get(
         id: $routeParams.applicationId
     , ->
@@ -139,7 +159,8 @@ angular.module("apps", [
         return
     )
     return
-).controller "CategoryListCtrl", ($scope, Categories) ->
+).controller "CategoryListCtrl", ($scope, Categories, PageState) ->
+    $scope.pageState = PageState.register $scope    
     $scope.categories = Categories.query()
     return
 
