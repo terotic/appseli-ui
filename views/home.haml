@@ -31,7 +31,7 @@
     %link{href: "http://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic", media: "all", rel: "stylesheet", type: "text/css"}
 
     %base{href: "/"}
-  %body
+  %body{"catch-transitions": true}
     .g-main-wrapper
       .g-navigation
         %nav.navigation-bar.navbar-custom
@@ -67,7 +67,7 @@
           .loader
           loading
       .g-content{"ng-view": "1", "ng-class": "pageState.state"}
-    .g-footer
+    .g-footer{"show-after-transitions": "true", "show-after-repeat": "true"}
       %footer.main-footer
         .main-footer-content
           %p Information provided by Helsingin kaupunki

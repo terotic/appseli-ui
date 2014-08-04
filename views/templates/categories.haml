@@ -1,6 +1,6 @@
 %h2.page-header Categories
 .categories
-  .category(ng-repeat="category in categories")
+  .category(ng-repeat="category in categories" emit-last="true")
     %a(ng-href="/list/?category={{category.slug}}")
       .category-content
         .category--icon
