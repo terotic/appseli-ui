@@ -47,7 +47,7 @@ angular.module("apps", [
             lang = languageService.getLanguage()
             field[lang] or field["en"]
 ]).factory("$templateCache", ($cacheFactory, $http, $injector) ->
-    factory = 
+    factory =
         get: (url) ->
             if url[0] == '/'
                 url = url.substring 1
@@ -71,8 +71,6 @@ angular.module("apps", [
                     @state = 'ready'
             @
     return new PageState
-        
-
 ).factory("Applications", ($resource, API_ROOT) ->
     $resource API_ROOT + "application/:id/"
 ).factory("Categories", ($resource, API_ROOT) ->
@@ -120,7 +118,7 @@ angular.module("apps", [
             templateUrl: STATIC_URL + "categories.html"
         ).when("/info/",
             templateUrl: STATIC_URL + "info.html"
-            controller: "DefaultCtrl"            
+            controller: "DefaultCtrl"
         ).otherwise redirectTo: "/"
 ]).controller("DefaultCtrl", ["$scope", "$rootScope", "$timeout", "PageState", ($scope, $rootScope, $timeout, PageState) ->
     $rootScope.ignoreTransition = false
@@ -150,7 +148,7 @@ angular.module("apps", [
     return
 ).controller("ApplicationCtrl", ($scope, $rootScope, $routeParams, Applications, PageState) ->
     $rootScope.ignoreTransition = false
-    $scope.pageState = PageState.register $scope    
+    $scope.pageState = PageState.register $scope
     application = Applications.get(
         id: $routeParams.applicationId
     , ->
@@ -160,7 +158,7 @@ angular.module("apps", [
     return
 ).controller("CategoryListCtrl", ($scope, $rootScope, Categories, PageState) ->
     $rootScope.ignoreTransition = true
-    $scope.pageState = PageState.register $scope    
+    $scope.pageState = PageState.register $scope
     $scope.categories = Categories.query()
     return
 ).directive('catchTransitions', ($location) ->
