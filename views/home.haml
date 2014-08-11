@@ -24,11 +24,15 @@
     %meta{name: "msapplication-TileImage", content: "/mstile-144x144.png"}
     %meta{name: "application-name", content: "hel.apps"}
 
+    %script{type: "text/javascript"}
+      != "app_settings = " + config_json + ";"
+
     %link{href: config.static_path + "css/appseli.css", media: "all", rel: "stylesheet", type: "text/css"}
     %link{href: "http://fonts.googleapis.com/css?family=Karla:400,400italic,700,700italic", media: "all", rel: "stylesheet", type: "text/css"}
 
     %base{href: "/"}
-  %body
+
+  %body{"catch-transitions": true}
     .g-main-wrapper
       .g-navigation
         %nav.navigation-bar.navbar-custom
@@ -63,8 +67,8 @@
         .splash-content{"ng-cloak": true}
           .loader
           loading
-      .g-content{"ng-view": "1"}
-    .g-footer
+      .g-content{"ng-view": "1", "ng-class": "pageState.state"}
+    .g-footer{"show-after-transitions": "true", "show-after-repeat": "true"}
       %footer.main-footer
         .main-footer-content
           %p Information provided by Helsingin kaupunki
@@ -77,15 +81,15 @@
     %script{src: "https://ajax.googleapis.com/ajax/libs/angularjs/1.2.11/angular-touch.js", type: "text/javascript"}
     %script{src: "https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js", type: "text/javascript"}
     %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js", type: "text/javascript"}
-    
-    %script{src: "js/ui-bootstrap-custom-0.10.0.min.js", type: "text/javascript"}
+
+    %script{src: "vendor/ui-bootstrap-custom-0.10.0.min.js", type: "text/javascript"}
+
     :javascript
       angular.module("config", [])
-      .constant("API_ROOT", "http://83.136.248.175/v1/")
-      .constant("STATIC_URL", "/");
+      .constant("API_ROOT", app_settings.api_backend_url + '/')
+      .constant("STATIC_URL", app_settings.static_path);
       window.HAML = {}
     %script{src: "templates.js", type: "text/javascript"}
     %script{src: "js/app.js", type: "text/javascript"}
-    -# if (config.livereload) {
-    -#%script{src: "//localhost:9001/livereload.js"}
-    -# }
+    - if (config.livereload)
+      %script{src: "//localhost:35729/livereload.js"}

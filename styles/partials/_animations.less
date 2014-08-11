@@ -11,19 +11,31 @@
 .lh-keyframes(~'waver-middle, 0% { top: 0;} 100% { top: 10px; }');
 .lh-keyframes(~'waver-before, 0% { left: -27px; } 100% { left: 23px; }');
 
+// .g-app-listing.ng-enter {
+//   .animation(show-card 5s linear normal);
+// }
 
-.g-app-listing.ng-enter {
-  .animation(show-card 0.5s linear normal);
-}
-
-.g-app-listing.ng-move-active {
-  .animation(move-card 1s linear normal);
-}
+// .g-app-listing.ng-move-active {
+//   .animation(move-card 1s linear normal);
+// }
 
 .g-content {
-  .animation(show-card 0.5s linear normal);
+  -webkit-transition:0.5s linear all;
+  -moz-transition:0.5s linear all;
+  -o-transition:0.5s linear all;
+  transition:0.5s linear all;
 }
 
+.g-content.load {
+  opacity: 0;
+}
+.g-content.ready {
+  opacity: 1;
+}
+
+.g-footer {
+  visibility: hidden;
+}
 
 .loader, .loader::before, .loader::after {
   width: @wave-size;

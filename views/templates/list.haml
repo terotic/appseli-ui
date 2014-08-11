@@ -11,4 +11,4 @@
           %option(value="-rating") Best rated first
           %option(value="name.fi") Alphabetical order
   .g-apps-list
-    .g-app-listing(ng-repeat="application in applications | orderBy:sortProp")=render("app")
+    .g-app-listing(ng-repeat="application in applications | orderBy:sortProp" emit-last="true")=render("app")

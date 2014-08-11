@@ -47,7 +47,7 @@ angular.module("apps", [
             lang = languageService.getLanguage()
             field[lang] or field["en"]
 ]).factory("$templateCache", ($cacheFactory, $http, $injector) ->
-    factory = 
+    factory =
         get: (url) ->
             if url[0] == '/'
                 url = url.substring 1
@@ -62,6 +62,15 @@ angular.module("apps", [
         put: (key, value) ->
             console.log "cache put", key, value
     return factory
+).factory("PageState", ($timeout) ->
+    class PageState
+        register: (scope) ->
+            @state = 'load'
+            scope.$on '$viewContentLoaded', (arg) =>
+                $timeout =>
+                    @state = 'ready'
+            @
+    return new PageState
 ).factory("Applications", ($resource, API_ROOT) ->
     $resource API_ROOT + "application/:id/"
 ).factory("Categories", ($resource, API_ROOT) ->
@@ -97,6 +106,7 @@ angular.module("apps", [
     ($routeProvider, STATIC_URL) ->
         $routeProvider.when("/",
             templateUrl: STATIC_URL + "front.html"
+            controller: "DefaultCtrl"
         ).when("/list/",
             controller: "ApplicationListCtrl"
             templateUrl: STATIC_URL + "list.html"
@@ -108,11 +118,16 @@ angular.module("apps", [
             templateUrl: STATIC_URL + "categories.html"
         ).when("/info/",
             templateUrl: STATIC_URL + "info.html"
+            controller: "DefaultCtrl"
         ).otherwise redirectTo: "/"
-]).controller("ApplicationListCtrl", ($scope, $location, Applications, Categories, Platforms, Accessibilities) ->
+]).controller("DefaultCtrl", ["$scope", "$rootScope", "$timeout", "PageState", ($scope, $rootScope, $timeout, PageState) ->
+    $rootScope.ignoreTransition = false
+    $scope.pageState = PageState.register $scope
+]).controller("ApplicationListCtrl", ($scope, $rootScope, $location, Applications, Categories, Platforms, Accessibilities, PageState) ->
+    $scope.pageState = PageState.register $scope
+    $rootScope.ignoreTransition = true
     $scope.filter = {}
     $scope.appliedFilter = {}
-
     angular.extend $scope.filter, $location.search()
     angular.extend $scope.appliedFilter, $scope.filter
     $scope.applications = Applications.query($scope.filter)
@@ -131,7 +146,9 @@ angular.module("apps", [
         return
 
     return
-).controller("ApplicationCtrl", ($scope, $routeParams, Applications) ->
+).controller("ApplicationCtrl", ($scope, $rootScope, $routeParams, Applications, PageState) ->
+    $rootScope.ignoreTransition = false
+    $scope.pageState = PageState.register $scope
     application = Applications.get(
         id: $routeParams.applicationId
     , ->
@@ -139,7 +156,30 @@ angular.module("apps", [
         return
     )
     return
-).controller "CategoryListCtrl", ($scope, Categories) ->
+).controller("CategoryListCtrl", ($scope, $rootScope, Categories, PageState) ->
+    $rootScope.ignoreTransition = true
+    $scope.pageState = PageState.register $scope
     $scope.categories = Categories.query()
     return
-
+).directive('catchTransitions', ($location) ->
+    link: (scope, element) ->
+        element.on 'transitionend otransitionend webkitTransitionEnd', (e) ->
+            unless scope.ignoreTransition == true
+                scope.$broadcast 'transition:end'
+).directive('emitLast', ($rootScope) ->
+    link: (scope, element) ->
+        if scope.$last
+            scope.$emit 'repeat:end'
+).directive('showAfterTransitions', ($rootScope, $location) ->
+    link: (scope, element) ->
+        $rootScope.$on '$routeChangeStart', ->
+            element.css 'visibility', 'hidden'
+        $rootScope.$on 'transition:end', ->
+            element.css 'visibility', 'visible'
+).directive('showAfterRepeat', ($rootScope, $location) ->
+    link: (scope, element) ->
+        $rootScope.$on '$routeChangeStart', ->
+            element.css 'visibility', 'hidden'
+        $rootScope.$on 'repeat:end', ->
+            element.css 'visibility', 'visible'
+)
